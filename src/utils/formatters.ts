@@ -1,5 +1,11 @@
 export const formatDate = (date: string | Date): string => {
   const d = typeof date === 'string' ? new Date(date) : date
+  
+  // Handle invalid dates
+  if (isNaN(d.getTime())) {
+    return 'Invalid Date'
+  }
+  
   return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'short',

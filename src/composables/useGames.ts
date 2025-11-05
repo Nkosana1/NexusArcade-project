@@ -24,7 +24,12 @@ export const useGames = () => {
     // Apply category filter
     if (selectedCategory.value !== 'all') {
       result = result.filter(
-        game => game.genre.toLowerCase() === selectedCategory.value
+        game => 
+          game.categories.some(cat => 
+            cat.id.toLowerCase() === selectedCategory.value ||
+            cat.name.toLowerCase() === selectedCategory.value
+          ) ||
+          game.genre?.toLowerCase() === selectedCategory.value // Legacy support
       )
     }
 
@@ -34,8 +39,13 @@ export const useGames = () => {
       result = result.filter(
         game => 
           game.title.toLowerCase().includes(query) ||
-          game.description.toLowerCase().includes(query) ||
-          game.genre.toLowerCase().includes(query) ||
+          game.developer.toLowerCase().includes(query) ||
+          game.publisher.toLowerCase().includes(query) ||
+          game.description?.toLowerCase().includes(query) ||
+          game.genre?.toLowerCase().includes(query) ||
+          game.categories.some(cat => 
+            cat.name.toLowerCase().includes(query)
+          ) ||
           game.tags?.some(tag => tag.toLowerCase().includes(query))
       )
     }
@@ -96,7 +106,7 @@ export const useGames = () => {
    * Fetch a single game by ID
    * @param id - Game ID
    */
-  const fetchGameById = async (id: number): Promise<Game | null> => {
+  const fetchGameById = async (id: string): Promise<Game | null> => {
     loading.value = true
     error.value = null
 
@@ -125,7 +135,7 @@ export const useGames = () => {
    * Get game by ID from current games list
    * @param id - Game ID
    */
-  const getGameById = (id: number): Game | undefined => {
+  const getGameById = (id: string): Game | undefined => {
     return games.value.find(game => game.id === id)
   }
 
@@ -165,38 +175,104 @@ export const useGames = () => {
   const getMockGames = (): Game[] => {
     return [
       {
-        id: 1,
+        id: '1',
         title: 'Cyber Legends',
+        developer: 'Neon Studios',
+        publisher: 'Arcade Games Inc.',
+        releaseDate: new Date('2024-01-15'),
+        price: 29.99,
+        rating: 4.9,
+        categories: [
+          { id: 'action', name: 'Action', icon: '⚔️' },
+          { id: 'adventure', name: 'Adventure', icon: '🗺️' },
+        ],
+        images: [
+          '/game-assets/backgrounds/cyber-legends-1.jpg',
+          '/game-assets/backgrounds/cyber-legends-2.jpg',
+        ],
+        videos: [
+          '/game-assets/videos/cyber-legends-trailer.mp4',
+        ],
+        requirements: {
+          os: 'Windows 10 64-bit',
+          processor: 'Intel Core i5-8400 / AMD Ryzen 5 2600',
+          memory: '8 GB RAM',
+          graphics: 'NVIDIA GTX 1060 / AMD RX 580',
+          storage: '50 GB available space',
+        },
+        // Legacy fields
         genre: 'Action',
         description: 'Fight through neon-lit streets in this fast-paced action adventure.',
-        image: '',
-        rating: 4.9,
+        image: '/game-assets/backgrounds/cyber-legends-1.jpg',
         players: '1M+',
-        releaseDate: '2024',
         featured: true,
         tags: ['action', 'cyberpunk', 'adventure'],
       },
       {
-        id: 2,
+        id: '2',
         title: 'Stellar Conquest',
+        developer: 'Cosmic Games',
+        publisher: 'Galaxy Entertainment',
+        releaseDate: new Date('2024-03-20'),
+        price: 39.99,
+        rating: 4.8,
+        categories: [
+          { id: 'strategy', name: 'Strategy', icon: '🎯' },
+          { id: 'simulation', name: 'Simulation', icon: '🎮' },
+        ],
+        images: [
+          '/game-assets/backgrounds/stellar-conquest-1.jpg',
+          '/game-assets/backgrounds/stellar-conquest-2.jpg',
+        ],
+        videos: [
+          '/game-assets/videos/stellar-conquest-trailer.mp4',
+        ],
+        requirements: {
+          os: 'Windows 10 64-bit',
+          processor: 'Intel Core i7-8700 / AMD Ryzen 7 2700X',
+          memory: '16 GB RAM',
+          graphics: 'NVIDIA GTX 1070 / AMD RX 5700',
+          storage: '60 GB available space',
+        },
+        // Legacy fields
         genre: 'Strategy',
         description: 'Build your empire across galaxies and dominate the cosmos.',
-        image: '',
-        rating: 4.8,
+        image: '/game-assets/backgrounds/stellar-conquest-1.jpg',
         players: '850K+',
-        releaseDate: '2024',
         featured: true,
         tags: ['strategy', 'space', 'empire'],
       },
       {
-        id: 3,
+        id: '3',
         title: 'Velocity Drift',
+        developer: 'Speed Racer Studios',
+        publisher: 'Racing Games Ltd.',
+        releaseDate: new Date('2023-11-10'),
+        price: 24.99,
+        rating: 4.7,
+        categories: [
+          { id: 'racing', name: 'Racing', icon: '🏎️' },
+          { id: 'sports', name: 'Sports', icon: '⚽' },
+        ],
+        images: [
+          '/game-assets/backgrounds/velocity-drift-1.jpg',
+          '/game-assets/backgrounds/velocity-drift-2.jpg',
+        ],
+        videos: [
+          '/game-assets/videos/velocity-drift-trailer.mp4',
+        ],
+        requirements: {
+          os: 'Windows 10 64-bit',
+          processor: 'Intel Core i5-6600K / AMD FX-8350',
+          memory: '8 GB RAM',
+          graphics: 'NVIDIA GTX 970 / AMD R9 290',
+          storage: '30 GB available space',
+        },
+        // Legacy fields
         genre: 'Racing',
         description: 'Experience hyper-realistic racing with cutting-edge physics.',
-        image: '',
-        rating: 4.7,
+        image: '/game-assets/backgrounds/velocity-drift-1.jpg',
         players: '1.2M+',
-        releaseDate: '2023',
         featured: true,
         tags: ['racing', 'cars', 'multiplayer'],
       },

@@ -5,9 +5,9 @@
     @mouseenter="handleHover"
     @mouseleave="handleLeave"
   >
-    <div class="game-card-image">
+      <div class="game-card-image">
       <div class="game-placeholder" :style="{ background: getGradient(game.id) }">
-        <div class="game-icon">{{ getGenreIcon(game.genre) }}</div>
+        <div class="game-icon">{{ getGenreIcon(game.categories[0]?.name || game.genre || '') }}</div>
       </div>
       <div class="game-overlay">
         <div class="game-rating">
@@ -18,11 +18,16 @@
       </div>
     </div>
     <div class="game-card-content">
-      <div class="game-genre">{{ game.genre }}</div>
+      <div class="game-genre">
+        {{ game.categories.map(cat => cat.name).join(', ') || game.genre }}
+      </div>
       <h3 class="game-title">{{ game.title }}</h3>
-      <p class="game-description">{{ game.description }}</p>
+      <p class="game-description">{{ game.description || `${game.title} by ${game.developer}` }}</p>
       <div class="game-footer">
-        <span class="game-date">{{ game.releaseDate }}</span>
+        <div class="game-info">
+          <span class="game-date">{{ formatDate(game.releaseDate) }}</span>
+          <span class="game-price">${{ game.price.toFixed(2) }}</span>
+        </div>
         <button class="btn-play" @click="playGame">
           <span>Play Now</span>
           <span class="arrow">→</span>
@@ -36,6 +41,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Game } from '@/types/Game'
+import { formatDate } from '@/utils/formatters'
 
 interface Props {
   game: Game
@@ -44,7 +50,9 @@ interface Props {
 const props = defineProps<Props>()
 const glowRef = ref<HTMLElement | null>(null)
 
-const getGradient = (id: number): string => {
+const getGradient = (id: string): string => {
+  // Convert string ID to number for gradient selection
+  const numericId = parseInt(id) || id.charCodeAt(0)
   const gradients = [
     'linear-gradient(135deg, #00f3ff 0%, #b967ff 100%)',
     'linear-gradient(135deg, #ff2a6d 0%, #b967ff 100%)',
@@ -52,7 +60,7 @@ const getGradient = (id: number): string => {
     'linear-gradient(135deg, #b967ff 0%, #ff2a6d 100%)',
     'linear-gradient(135deg, #00f3ff 0%, #00ff9d 100%)',
   ]
-  return gradients[id % gradients.length]
+  return gradients[numericId % gradients.length]
 }
 
 const getGenreIcon = (genre: string): string => {
@@ -218,11 +226,25 @@ const playGame = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .game-date {
   font-size: 0.85rem;
   color: var(--nebula-gray);
+}
+
+.game-price {
+  font-size: 1.1rem;
+  color: var(--neon-green);
+  font-weight: 700;
+  font-family: var(--font-accent);
 }
 
 .btn-play {

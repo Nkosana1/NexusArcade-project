@@ -1,24 +1,37 @@
-export interface Game {
-  id: number
-  title: string
-  genre: string
-  description: string
-  image: string
-  rating: number
-  players: string
-  releaseDate: string
-  featured: boolean
-  price?: number
-  tags?: string[]
-  developer?: string
-  publisher?: string
-  platforms?: string[]
+export interface SystemRequirements {
+  os: string
+  processor: string
+  memory: string
+  graphics: string
+  storage: string
 }
 
 export interface GameCategory {
   id: string
   name: string
   icon: string
+}
+
+export interface Game {
+  id: string
+  title: string
+  developer: string
+  publisher: string
+  releaseDate: Date
+  price: number
+  rating: number
+  categories: GameCategory[]
+  images: string[]
+  videos: string[]
+  requirements: SystemRequirements
+  // Optional legacy fields for backward compatibility
+  genre?: string
+  description?: string
+  image?: string
+  players?: string
+  featured?: boolean
+  tags?: string[]
+  platforms?: string[]
 }
 
 export interface GameFilters {
