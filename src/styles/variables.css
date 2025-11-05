@@ -31,5 +31,11 @@
   --font-accent: 'Rajdhani', sans-serif;     /* UI elements */
 
   --text-glow: 0 0 10px currentColor, 0 0 20px currentColor;
+
+  /* Gaming-first Responsive Breakpoints */
+  --mobile: 768px;      /* Handheld devices */
+  --tablet: 1024px;     /* Tablets and small laptops */
+  --desktop: 1200px;    /* Standard desktops */
+  --ultra-wide: 1920px; /* Gaming monitors */
 }
 
