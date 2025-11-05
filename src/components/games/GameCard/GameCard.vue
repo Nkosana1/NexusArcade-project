@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Game } from '../types'
+import type { Game } from '@/types/Game'
 
 interface Props {
   game: Game

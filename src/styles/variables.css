@@ -1,0 +1,35 @@
+/* ============================================
+   NEXUSARCADE - CSS VARIABLES
+   ============================================ */
+
+:root {
+  /* Electric Primary Colors */
+  --neon-blue: #00f3ff;
+  --neon-purple: #b967ff;
+  --neon-pink: #ff2a6d;
+  --neon-green: #00ff9d;
+
+  /* Dark Backgrounds */
+  --space-black: #0a0a0f;
+  --cosmic-purple: #1a0b2a;
+  --void-blue: #0f1420;
+
+  /* UI Elements */
+  --stellar-white: #e2e8f0;
+  --nebula-gray: #4a5568;
+  --meteor-dust: #718096;
+
+  /* Gradient Magic */
+  --gradient-hero: linear-gradient(135deg, #00f3ff 0%, #b967ff 50%, #ff2a6d 100%);
+  --gradient-card: linear-gradient(145deg, #1a0b2a 0%, #0f1420 100%);
+  --gradient-button: linear-gradient(45deg, #ff2a6d 0%, #b967ff 100%);
+  --gradient-glow: radial-gradient(circle at center, #00f3ff22 0%, transparent 70%);
+
+  /* Typography with Personality */
+  --font-primary: 'Orbitron', sans-serif;    /* Futuristic headings */
+  --font-secondary: 'Exo 2', sans-serif;     /* Readable body text */
+  --font-accent: 'Rajdhani', sans-serif;     /* UI elements */
+
+  --text-glow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
